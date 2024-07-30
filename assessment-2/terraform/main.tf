@@ -22,13 +22,9 @@ module "vpc" {
 
 module "ist" {
   source                = "./modules/instances"
-  #network_self_link     = module.vpc.out_vpc_self_link
   subnetwork            = module.vpc.out_private_subnet_name
   instance_names        = ["instance-1", "instance-2", "instance-3"]
   zones                 = ["us-central1-a", "us-central1-b"]
-  #region_name           = var.var_region_name
-  #ist_public_subnet     = var.ist_public_subnet
-  #ist_private_subnet    = var.ist_private_subnet
 }
 
 module "loadbalancer" {
