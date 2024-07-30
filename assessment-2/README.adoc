@@ -1,0 +1,25 @@
+= First assessment
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+ifndef::env-github[]
+:imagesdir: ./
+endif::[]
+:toc:
+:toc-placement!:
+
+== Overview
+
+.GCP Infrastructure:
+* Web application based on a web server (e.g. Nginx, Apache)
+* Database (e.g. MySQL, PostgreSQL)
+* Web-based storage (e.g., S3, GCS)
+* Application should be scalable and kept in High Availability approach
+
+== Solution architecture
+
+image::images/solution-arch.png[] 
