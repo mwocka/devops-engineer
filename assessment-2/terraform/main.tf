@@ -57,13 +57,13 @@ module "firewall" {
   target_tags    = ["http"]
 }
 
-# module "database" {
-#   source              = "./modules/database"
-#   db_instance_name    = "my-db-instance"
-#   db_version          = "MYSQL_8_0"
-#   region              = "us-central1"
-#   db_tier             = "db-f1-micro"
-#   db_name             = "my_database"
-#   db_user             = "my_user"
-#   db_password         = "my_password"
-# }
+module "database" {
+  source              = "./modules/database"
+  db_instance_name    = "my-db-instance"
+  db_version          = "MYSQL_8_0"
+  region              = "us-central1"
+  db_tier             = "db-f1-micro"
+  db_name             = "my_database"
+  db_user             = "my_user"
+  db_password         = "my_password"
+}
