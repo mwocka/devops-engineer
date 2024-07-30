@@ -22,4 +22,10 @@ endif::[]
 
 == Solution architecture
 
-image::images/solution-arch.png[] 
+image::images/solution-arch.png[]
+
+== Limitations
+
+Following project has not been finished. The infrastructure is automated but the GCS and database are not connected with the instances.
+
+There are several security issues, like the instances have public ips, or there is no IAM set on the bucket or DB level.
