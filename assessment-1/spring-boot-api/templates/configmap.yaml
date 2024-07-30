@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.data.name }}-cm
+  namespace: {{ .Values.data.namespace }}
+data:
+    config.json: |
+        {
+            "key1": "value1",
+            "key2": "value2",
+            "key3": "value3"
+        }

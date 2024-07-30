@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: spring-boot-api-appset
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - name: dev-spring-boot-api
+        environment: dev
+        namespace: global
+        clusterName: dev-global-cluster-0
+        project: global
+        helmVersion: 1.0.0
+      - name: prd-spring-boot-api
+        environment: prd
+        namespace: global
+        clusterName: prd-global-cluster-5
+        project: global
+        helmVersion: 1.0.0
+  template:
+    metadata:
+      annotations:
+        argocd.argoproj.io/sync-options: CreateNamespace=true
+      name: '{{name}}'
+      labels:
+        env: '{{environment}}'
+    spec:
+      destination:
+        name: '{{clusterName}}'
+        namespace: '{{environment}}-{{namespace}}'
+      project: '{{environment}}-{{project}}'
+      sources:
+        - chart: '{{name}}'
+          repoURL: https://chart-artifactory/helm-local #mocked URL
+          targetRevision: '{{helmVersion}}'
+          helm:
+            releaseName: spring-boot-api
+        - repoURL: https://github.com/mwocka/devops-engineer.git
+          path: assessment-1/spring-boot-api-values/{{environment}}.yaml
+          targetRevision: main
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

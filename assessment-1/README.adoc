@@ -1,1 +1,38 @@
 = First assessment
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+ifndef::env-github[]
+:imagesdir: ./
+endif::[]
+:toc:
+:toc-placement!:
+
+== Overview
+
+AppName: Spring-Boot API
+Image: busybox:stable
+
+.Cluster names:
+* dev-global-cluster-0 
+* prd-global-cluster-5
+
+.Namespaces:
+* argocd - argocd projects
+* global-dev, global-prd - application namespace
+
+== Project structure
+
+.Project has been slit by three different directories:
+* **argocd-projects** - contains application set for both environments: dev and prd
+* **spring-boot-api** - contains helm chart
+* **spring-boot-api-values** - contains helm values
+
+[WARNING]
+====
+The helm chart repository has been mocked. Please also notice that not all setting are dynamic in helm chart. It can be done, but for this exercise it's not required.
+====

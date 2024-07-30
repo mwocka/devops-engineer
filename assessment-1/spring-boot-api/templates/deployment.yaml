@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.data.name }}
+  name: {{ .Values.data.name }}-deploy
+  namespace: {{ .Values.data.namespace }}
+spec:
+  replicas: {{ .Values.data.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.data.name }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      labels:
+        app: {{ .Values.data.name }}
+    spec:
+      containers:
+      - image: busybox:stable
+        name: busybox
+        args: ["--spring.profiles.active={{ .Values.data.environment }}"]
+        env:
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: SECRET_1
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.data.name }}-secret
+                key: secret-1
+          - name: SECRET_2
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.data.name }}-secret
+                key: secret-2
+          - name: SECRET_3
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.data.name }}-secret
+                key: secret-3
+        ports:
+          - containerPort: 8080
+            name: api
+          - containerPort: 8081
+            name: logs
+          - containerPort: 8082
+            name: soap
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh","-c","wget http://localhost:8080/service/shutdown"]
+        resources:
+          limits:
+            cpu: "2"
+            memory: "1024Mi"
+          requests:
+            cpu: "20m"
+            memory: "128Mi"
+        startupProbe:
+          tcpSocket:
+            port: 8080
+          failureThreshold: 15
+          periodSeconds: 5
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          periodSeconds: 1
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          periodSeconds: 30
+        volumeMounts:
+        - name: config-json
+          mountPath: "/app"
+          readOnly: true
+      volumes:
+      - name: config-json
+        configMap:
+          name: {{ .Values.data.name }}-cm
+status: {}

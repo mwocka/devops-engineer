@@ -1,0 +1,6 @@
+data:
+  namespace: global-dev
+  name: spring-boot-api
+  environment: dev
+  host: dev-example.com
+  replicas: 3

@@ -1,0 +1,6 @@
+data:
+  namespace: global-prd
+  name: spring-boot-api
+  environment: prd
+  host: example.com
+  replicas: 5

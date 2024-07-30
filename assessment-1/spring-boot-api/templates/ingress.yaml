@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.data.name }}-ingress
+  namespace: {{ .Values.data.namespace }}
+spec:
+  rules:
+    - host: {{ .Values.data.host }}
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: spring-boot-api-svc
+                port:
+                  number: 8080
+          - path: /logs
+            pathType: Prefix
+            backend:
+              service:
+                name: spring-boot-api-svc
+                port:
+                  number: 8081
+          - path: /soap
+            pathType: Prefix
+            backend:
+              service:
+                name: spring-boot-api-svc
+                port:
+                  number: 8082

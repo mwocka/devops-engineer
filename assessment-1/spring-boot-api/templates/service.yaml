@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.data.name }}-svc
+  namespace: {{ .Values.data.namespace }}
+spec:
+  selector:
+    app: spring-boot-api
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      name: api
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+      name: logs
+    - protocol: TCP
+      port: 8082
+      targetPort: 8082
+      name: soap
